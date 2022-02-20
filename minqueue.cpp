@@ -29,6 +29,7 @@ class MinHeap{
         }
         void heapify(int i);
         void build_min_heap();
+        int* heap_sort();
 };
 
 void MinHeap::heapify(int i){
@@ -52,6 +53,29 @@ void MinHeap::build_min_heap(){
         heapify(i);
     }
 }
+
+void printArr(int arr[], int size){
+    cout<<"In the arr:"<<endl;
+    for (int i = 0; i < size; i++){
+        cout<<arr[i]<<endl;
+    }
+}
+
+int* heap_sort(MinHeap heap){
+    int* sortedArr = new int[heap.size];
+    int originalSize = heap.size;
+    for (int i=heap.size-1; i>0; i--){
+        heap.swap(i, 0);
+        cout<<"Last element of arrValue after swap: "<<heap.arrValue[i]<<endl;
+        sortedArr[originalSize-1-i] = heap.arrValue[i];
+        // printArr(heap.arrValue,10);
+        heap.size -= 1;
+        // cout<<heap.size<<endl;
+        heap.heapify(0);
+    }
+    sortedArr[originalSize - 1] = heap.arrValue[0];
+    return sortedArr;
+}
 int main(){
     //create an input array for heap
     int arr_cpy[10] = {4,1,3,2,16,9,10,14,8,7};
@@ -68,5 +92,9 @@ int main(){
     for (int i =0; i<heap.size; i++){
         cout<<heap.arrValue[i]<<endl;
     }
+
+    //sort the heap
+    int *arrSort = heap_sort(heap);
+    printArr(arrSort,10);
     return 0;
 }
