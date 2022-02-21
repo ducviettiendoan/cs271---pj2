@@ -78,7 +78,6 @@ int* heap_sort(MinHeap heap){
     int originalSize = heap.size;
     for (int i=heap.size-1; i>0; i--){
         heap.swap(i, 0);
-        cout<<"Last element of arrValue after swap: "<<heap.arrValue[i]<<endl;
         sortedArr[originalSize-1-i] = heap.arrValue[i];
         heap.size -= 1;
         heap.heapify(0);
@@ -95,15 +94,16 @@ int* heap_sort(MinHeap heap){
 class MinQueue{
     public:
         MinHeap heapBase;
-        MinQueue(int cap, int size, int*arrVal){
-            heapBase = MinHeap(cap, arrVal, size);
-        }
+        MinQueue();
         int minimum();
         int extract_min();
         void decrease_key(int, int);
         void insert(int);
 };
 
+MinQueue::MinQueue(){
+    heapBase = MinHeap(0,new int[0],0);
+}
 int MinQueue::minimum(){
     return heapBase.arrValue[0];
 }
@@ -124,7 +124,6 @@ void MinQueue::decrease_key(int index, int newVal){
     heapBase.arrValue[index] = newVal;
     int i = index;
     while(i>0 && heapBase.arrValue[heapBase.findParent(i)]>heapBase.arrValue[i]){
-        cout<<"swap"<<endl;
         heapBase.swap(i,heapBase.findParent(i));
         i = heapBase.findParent(i);
     }

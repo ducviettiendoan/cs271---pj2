@@ -4,7 +4,7 @@ using namespace std;
 
 int main(){
     int *arrTest = new int[0];
-    MinQueue pQueue = MinQueue(0, 0, arrTest);
+    MinQueue pQueue = MinQueue();
     pQueue.insert(4);
     pQueue.insert(1);
     pQueue.insert(3);
@@ -15,15 +15,16 @@ int main(){
     pQueue.insert(14);
     pQueue.insert(8);
     pQueue.insert(7);
-
     printArr(pQueue.heapBase.arrValue, pQueue.heapBase.size);
+    cout<<"Min number:"<<endl;
     cout<<pQueue.minimum()<<endl;
     pQueue.decrease_key(7, 2);
     cout<<"After decrease key:"<<endl;
     printArr(pQueue.heapBase.arrValue, pQueue.heapBase.size);
-    // arrTest[0] = 1;
-    // arrTest[1] = 2;
-    // arrTest[2] = 3;
-    // printArr(arrTest,3);
-    
+    pQueue.extract_min();
+    cout<<"After extract"<<endl;
+    printArr(pQueue.heapBase.arrValue, pQueue.heapBase.size);
+    cout<<"Sort the priority queue:"<<endl;
+    heap_sort(pQueue.heapBase);
+    printArr(pQueue.heapBase.arrValue, pQueue.heapBase.size);
 }
