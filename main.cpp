@@ -2,24 +2,24 @@
 using namespace std;
 #include "minqueue.cpp"
 
-MinQueue cpyArrToMinPQueue(int *arr, int start, int len)
+//create a minQueue based on the given array
+template<typename T>
+MinQueue<T> cpyArrToMinPQueue(T *arr, int start, int len)
 {
-    MinQueue pq;
+    MinQueue<T> pq;
     for (int i = start; i < start + len; i++)
     {
         pq.insert(arr[i]);
     }
-    cout << "Min Queue arr:" << endl;
-    printArr(pq.heapBase.arrValue, 3);
     return pq;
 }
 
-// Might need to improve since running time now is O(n^2)
-// k is the size of the box, s is the size of inputArr
-int *windowPosition(int *inputArr, int k, int s)
+//inputArr is the given array, k is the size of the window, s is the size of inputArr
+template<typename T>
+T *windowPosition(T *inputArr, int k, int s)
 {
-    int *returnArr = new int[s - k + 1];
-    MinQueue minPQ;
+    T *returnArr = new T[s - k + 1];
+    MinQueue<T> minPQ;
     for (int i = 0; i < s - k + 1; i++)
     {
         minPQ = cpyArrToMinPQueue(inputArr, i, k);
@@ -29,13 +29,12 @@ int *windowPosition(int *inputArr, int k, int s)
 }
 int main()
 {
-    /*int inputArr[8] = {1, 3, -1, -3, 5, 3, 6, 7};
-    int *testArr = windowPosition(inputArr, 3);
-    cout << "result:" << endl;
-    printArr(testArr, 6);*/
+    int inputArr[8] = {1, 3, -1, -3, 5, 3, 6, 7};
+    int *testArr = windowPosition(inputArr, 3,8);
+    //size testArr is 6 since the window size is 3. So the maximum number of windows is 6
+    printArr(testArr, 6);
 
-    int inputArr[10] = {3, 5, -1, 2, 8, 9, 7, 1};
-    int *testArr = windowPosition(inputArr, 5, 8);
-    cout << "result:" << endl;
-    printArr(testArr, 4);
+    // int inputArr[8] = {3, 5, -1, 2, 8, 9, 7, 1};
+    // int *testArr = windowPosition(inputArr, 4, 8);
+    // printArr(testArr, 5);
 }

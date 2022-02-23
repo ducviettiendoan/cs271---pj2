@@ -1,23 +1,33 @@
 #include<iostream>
-#include<vector>
 #include<climits>
 using namespace std;
 
+
+//ultility function to print an array (also the content of a heap) with a given size
+template<typename T>
+void printArr(T arr[], int size){
+    for (int i = 0; i < size; i++){
+        cout<<arr[i]<<" ";
+    }
+    cout<<endl;
+}
+
+//class minHeap for minQueue class later
+template<typename T>
 class MinHeap{
     public: 
-        int *arrValue;
+        //an array to hold all the values of the heap
+        T *arrValue;
+        //array capacity
         int capacity;
+        //size of heap
         int size;
-        MinHeap(){
-            arrValue = nullptr;
-            capacity = 0;
-            size = 0;
-        }
-        MinHeap(int capacity, int *arr, int s){
-            capacity = capacity;
-            size = s;
-            arrValue = arr;
-        }
+
+        //Heap's Constructors 
+        MinHeap();
+        MinHeap(int, T*, int );
+        MinHeap(const MinHeap &);
+        //index of parent, left child, or right child
         int findParent(int i){
             return (i-1)/2;
         }
@@ -27,24 +37,50 @@ class MinHeap{
         int findRight(int i){
             return 2*i+2;
         }
-        //parameters are indices
-        void swap(int const &a, int const &b){
-            int temp = arrValue[a];
-            arrValue[a] = arrValue[b];
-            arrValue[b] = temp;
-        }
-        void shallowCpy(int*arr, int*cpyArr, int size){
-            for (int i = 0; i<size; i++){
-                arr[i] = cpyArr[i];
-            }
-        }
+        //swap 2 elements in an array
+        void swap(int const &, int const &);
+        //heapify to maintain the minHeap property
         void heapify(int i);
+        // build a min heap 
         void build_min_heap();
-        int* heap_sort();
+        //heap sort algorithm
+        void heap_sort();
 
 };
 
-void MinHeap::heapify(int i){
+template<typename T>
+MinHeap<T>::MinHeap(){}
+
+template<typename T>
+MinHeap<T>::MinHeap(int capacity, T *arr, int s){
+    capacity = capacity;
+    size = s;
+    arrValue = arr;
+}
+
+//deep copy a minHeap to another minHeap
+template<typename T>
+MinHeap<T>::MinHeap(const MinHeap &heap){
+    cout<<"Size:"<<heap.size<<endl;
+    arrValue = new T[heap.size];
+    //deep copy the array
+    for (int i =0; i<heap.size; i++){
+        arrValue[i] = heap.arrValue[i];
+    }
+    capacity = heap.capacity;
+    size = heap.size;
+}
+
+template<typename T>
+void MinHeap<T>::swap(int const &a, int const &b){
+    //parameters are indices
+    T temp = arrValue[a];
+    arrValue[a] = arrValue[b];
+    arrValue[b] = temp;
+}
+
+template<typename T>
+void MinHeap<T>::heapify(int i){
     int smallest = i;
     int l = findLeft(i);
     int r = findRight(i);   
@@ -54,107 +90,103 @@ void MinHeap::heapify(int i){
     if (r < size && arrValue[r] < arrValue[smallest]){
         smallest = r;
     }
+    //if swap elements call heapify again to maintain the minHeap property
     if (smallest != i){
         swap(smallest, i);
         heapify(smallest);
     }
 }
 
-void MinHeap::build_min_heap(){
+template<typename T>
+void MinHeap<T>::build_min_heap(){
+    //heapify all the subtrees 
     for (int i = (size/2)-1; i>=0; i--){
         heapify(i);
     }
 }
 
-void printArr(int arr[], int size){
-    cout<<"In the arr:"<<endl;
-    for (int i = 0; i < size; i++){
-        cout<<arr[i]<<endl;
+template<typename T>
+void MinHeap<T>::heap_sort(){
+    //make a deep copy of the input and put this copy to create a heap
+    MinHeap<T> heapCpy = MinHeap<T>(*this);
+    // cout<<"Before build min heap:"<<endl;
+    // printArr(heapCpy.arrValue,size);
+    heapCpy.build_min_heap();
+    // cout<<"Build min heap:"<<endl;
+    // cout<<"heapCpy:"<<endl;
+    // printArr(heapCpy.arrValue,size);
+    // cout<<"arrValue:"<<endl;
+    // printArr(arrValue, size);
+    for (int i=size-1; i>0; i--){
+        heapCpy.swap(i, 0);
+        arrValue[size-1-i] = heapCpy.arrValue[i];
+        //pop out the last element
+        heapCpy.size -= 1;
+        //heapify the remaining heap after swapping
+        heapCpy.heapify(0);
     }
-}
-
-int* heap_sort(MinHeap heap){
-    int* sortedArr = new int[heap.size];
-    int originalSize = heap.size;
-    for (int i=heap.size-1; i>0; i--){
-        heap.swap(i, 0);
-        sortedArr[originalSize-1-i] = heap.arrValue[i];
-        heap.size -= 1;
-        heap.heapify(0);
-    }
-    sortedArr[originalSize - 1] = heap.arrValue[0];
-    //update the heap.arrValue to sortedArr
-    heap.shallowCpy(heap.arrValue, sortedArr, originalSize);
-    heap.size = originalSize;
-    heap.capacity = heap.size;
-    return sortedArr;
+    //get last element of minHeap to the inputArr
+    arrValue[size - 1] = heapCpy.arrValue[0];
 }
 
 //MinQueue
+template<typename T>
 class MinQueue{
     public:
-        MinHeap heapBase;
+        //a heap inside the minQueue
+        MinHeap<T> heapBase;
+        //Contructor
         MinQueue();
-        int minimum();
-        int extract_min();
-        void decrease_key(int, int);
-        void insert(int);
+        //find the minimum of a priority min queue
+        T minimum();
+        //extract and return the minimum value
+        T extract_min();
+        //decrease a value in the queue to another lower value
+        void decrease_key(int, T);
+        //insert the new value to the queue
+        void insert(T);
 };
 
-MinQueue::MinQueue(){
-    heapBase = MinHeap(0,new int[0],0);
+template<typename T>
+MinQueue<T>::MinQueue(){
+    heapBase = MinHeap<T>(0,new T[0],0);
 }
-int MinQueue::minimum(){
+
+template<typename T>
+T MinQueue<T>::minimum(){
     return heapBase.arrValue[0];
 }
 
-int MinQueue::extract_min(){
+template<typename T>
+T MinQueue<T>::extract_min(){
+    //swap the min value to the end of the array
     swap(heapBase.arrValue[0], heapBase.arrValue[heapBase.size-1]);
-    int minVal = heapBase.arrValue[heapBase.size-1];
+    T minVal = heapBase.arrValue[heapBase.size-1];
     heapBase.size -= 1;
     heapBase.heapify(0);
     return minVal;
 }
 
-void MinQueue::decrease_key(int index, int newVal){
+template<typename T>
+void MinQueue<T>::decrease_key(int index, T newVal){
     if (newVal > heapBase.arrValue[index]){
         cout<<"Cannot decrease x to a bigger value"<<endl;
         return;
     }
+
     heapBase.arrValue[index] = newVal;
     int i = index;
+    //switch the newVal with its parent if it's larger
     while(i>0 && heapBase.arrValue[heapBase.findParent(i)]>heapBase.arrValue[i]){
         heapBase.swap(i,heapBase.findParent(i));
         i = heapBase.findParent(i);
     }
 }
 
-void MinQueue::insert(int newVal){
-    heapBase.arrValue[heapBase.size] = INT_MAX;
+template<typename T>
+void MinQueue<T>::insert(T newVal){
+    //assign the value to be really large so that we could insert any number
+    heapBase.arrValue[heapBase.size] = numeric_limits<T>::max();
     heapBase.size += 1;
     decrease_key(heapBase.size-1, newVal);
 }
-
-// int main(){
-//     //create an input array for heap
-//     int arr_cpy[10] = {4,1,3,2,16,9,10,14,8,7};
-//     int *arr = new int[20];
-//     for (int i =0; i<10; i++){
-//         arr[i] = arr_cpy[i];
-//     }
-//     //end array
-
-//     //create heap
-//     MinHeap heap = MinHeap(20,arr, 10);
-//     heap.build_min_heap();
-//     //test heap_min by printing the array
-//     for (int i =0; i<heap.size; i++){
-//         cout<<heap.arrValue[i]<<endl;
-//     }
-
-//     //sort the heap
-//     int *arrSort = heap_sort(heap);
-//     printArr(heap.arrValue,10);
-
-//     return 0;
-// }
