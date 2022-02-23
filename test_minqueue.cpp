@@ -30,7 +30,7 @@ int main(){
     pQueue.extract_min();
     cout<<"After extract"<<endl;
     printArr(pQueue.heapBase.arrValue, pQueue.heapBase.size);
-    //test heap_sort
+    //test heap_sort build_min_heap and heapify (since build_min_heap and heapify are in heap_sort)
     pQueue.heapBase.heap_sort();
     cout<<"Sort the priority queue:"<<endl;
     printArr(pQueue.heapBase.arrValue, pQueue.heapBase.size);
@@ -61,7 +61,7 @@ int main(){
     pQueueInt.extract_min();
     cout<<"After extract"<<endl;
     printArr(pQueueInt.heapBase.arrValue, pQueueInt.heapBase.size);
-    //test heap_sort
+    //test heap_sort build_min_heap and heapify (since build_min_heap and heapify are in heap_sort)
     pQueueInt.heapBase.heap_sort();
     cout<<"Sort the priority queue:"<<endl;
     printArr(pQueueInt.heapBase.arrValue, pQueueInt.heapBase.size);
