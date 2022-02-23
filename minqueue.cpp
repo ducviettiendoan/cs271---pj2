@@ -69,6 +69,8 @@ void MinHeap<T>::swap(int const &a, int const &b){
     arrValue[b] = temp;
 }
 
+//precondition: the smallest number of each subtree is swapped or stay the same for next heapify() call
+//postcondition: each subtree always maintain the min-heap property after heapify()
 template<typename T>
 void MinHeap<T>::heapify(int i){
     int smallest = i;
@@ -87,6 +89,8 @@ void MinHeap<T>::heapify(int i){
     }
 }
 
+//precondition: the heap contains elements inorder to be heapify()
+//postcondition: By continuously calling heapify() for each subtree, the final heap is now a min-heap.
 template<typename T>
 void MinHeap<T>::build_min_heap(){
     //heapify all the subtrees 
@@ -95,6 +99,8 @@ void MinHeap<T>::build_min_heap(){
     }
 }
 
+//precondition: before each implementation of heap_sort, the heap is a min-heap (has min-heap properties)
+//postcondition: the heap is sorted in an ascending order.
 template<typename T>
 void MinHeap<T>::heap_sort(){
     //make a deep copy of the input and put this copy to create a heap
@@ -142,11 +148,15 @@ MinQueue<T>::MinQueue(){
     heapBase = MinHeap<T>(0,new T[0],0);
 }
 
+//precondition: the top (1st element of the heap) is always the smallest number
+//postcondition: get the smallest number correctly
 template<typename T>
 T MinQueue<T>::minimum(){
     return heapBase.arrValue[0];
 }
 
+//precondition: the top (1st element of the heap) is always the smallest number
+//postcondition: get the smallest number and also the heap is heapified again to maintain heap property
 template<typename T>
 T MinQueue<T>::extract_min(){
     //swap the min value to the end of the array
@@ -157,6 +167,8 @@ T MinQueue<T>::extract_min(){
     return minVal;
 }
 
+//precondition: the queue has the min-heap property
+//postcondition: by swaping the elements after decreasing a key properly, the queue maintains the min-heap property
 template<typename T>
 void MinQueue<T>::decrease_key(int index, T newVal){
     if (newVal > heapBase.arrValue[index]){
@@ -173,6 +185,9 @@ void MinQueue<T>::decrease_key(int index, T newVal){
     }
 }
 
+//precondition: the queue has the min-heap property
+//postcondition: similar to decrease_key, by finding the correct position for the new element 
+//and swapping other elements, the queue maintains the min-heap property.
 template<typename T>
 void MinQueue<T>::insert(T newVal){
     //assign the value to be really large so that we could insert any number
