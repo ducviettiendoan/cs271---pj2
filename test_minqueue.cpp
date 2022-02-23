@@ -34,8 +34,8 @@ int main(){
     pQueue.heapBase.heap_sort();
     cout<<"Sort the priority queue:"<<endl;
     printArr(pQueue.heapBase.arrValue, pQueue.heapBase.size);
-
     cout<<endl;
+    
     //Int data type
     MinQueue<int> pQueueInt = MinQueue<int>();
     pQueueInt.insert(12);

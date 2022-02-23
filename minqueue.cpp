@@ -105,14 +105,7 @@ template<typename T>
 void MinHeap<T>::heap_sort(){
     //make a deep copy of the input and put this copy to create a heap
     MinHeap<T> heapCpy = MinHeap<T>(*this);
-    // cout<<"Before build min heap:"<<endl;
-    // printArr(heapCpy.arrValue,size);
     heapCpy.build_min_heap();
-    // cout<<"Build min heap:"<<endl;
-    // cout<<"heapCpy:"<<endl;
-    // printArr(heapCpy.arrValue,size);
-    // cout<<"arrValue:"<<endl;
-    // printArr(arrValue, size);
     for (int i=size-1; i>0; i--){
         heapCpy.swap(i, 0);
         arrValue[size-1-i] = heapCpy.arrValue[i];

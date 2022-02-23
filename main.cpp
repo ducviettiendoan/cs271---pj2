@@ -37,7 +37,16 @@ int main()
     //size testArr is 6 since the window size is 3. So the maximum number of windows is 6
     printArr(testArr, 6);
 
-    // int inputArr[8] = {3, 5, -1, 2, 8, 9, 7, 1};
-    // int *testArr = windowPosition(inputArr, 4, 8);
-    // printArr(testArr, 5);
+    //Other test cases:
+    cout<<"Other test cases: "<<endl;
+    int inputArr1[8] = {3, 5, -1, 2, 8, 9, 7, 1};
+    int *testArr1 = windowPosition(inputArr1, 4, 8);
+    //size testArr is 8 since the window size is 4. So the maximum number of windows is 5
+    printArr(testArr1, 5);
+
+    int inputArr2[10] = {2,7,-1,4,6,10,5,11,3,-2};
+    int *testArr2 = windowPosition(inputArr2, 5, 10);
+    //size testArr is 10 since the window size is 5. So the maximum number of windows is 6
+    printArr(testArr2, 6);
+
 }
