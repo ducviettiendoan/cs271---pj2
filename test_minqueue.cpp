@@ -58,12 +58,19 @@ int main(){
     cout<<"After decrease key:"<<endl;
     printArr(pQueueInt.heapBase.arrValue, pQueueInt.heapBase.size);
     // test extract_min
-    pQueueInt.extract_min();
+    // Output should be: 1
+    cout<<"The extract number: "<<pQueueInt.extract_min()<<endl;
     cout<<"After extract"<<endl;
     printArr(pQueueInt.heapBase.arrValue, pQueueInt.heapBase.size);
     //test heap_sort build_min_heap and heapify (since build_min_heap and heapify are in heap_sort)
+    //Output should be : {2,3,4,6,7,8,9,10,12}
     pQueueInt.heapBase.heap_sort();
     cout<<"Sort the priority queue:"<<endl;
     printArr(pQueueInt.heapBase.arrValue, pQueueInt.heapBase.size);
- 
+
+    //Test an empty heap
+    //should not print out anything
+    cout<<"Getting the empty min queue:"<<endl;
+    MinQueue<int> pQueueIntEmpty = MinQueue<int>();
+    printArr(pQueueIntEmpty.heapBase.arrValue, pQueueIntEmpty.heapBase.size);
 }

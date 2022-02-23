@@ -48,5 +48,4 @@ int main()
     int *testArr2 = windowPosition(inputArr2, 5, 10);
     //size testArr is 10 since the window size is 5. So the maximum number of windows is 6
     printArr(testArr2, 6);
-
 }

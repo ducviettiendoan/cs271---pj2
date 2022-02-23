@@ -126,6 +126,7 @@ class MinQueue{
         MinHeap<T> heapBase;
         //Contructor
         MinQueue();
+        MinQueue(int, T*, int);
         //find the minimum of a priority min queue
         T minimum();
         //extract and return the minimum value
@@ -139,6 +140,11 @@ class MinQueue{
 template<typename T>
 MinQueue<T>::MinQueue(){
     heapBase = MinHeap<T>(0,new T[0],0);
+}
+
+template<typename T>
+MinQueue<T>::MinQueue(int cap, T* arr, int size){
+    heapBase = MinHeap<T>(cap, arr, size);
 }
 
 //precondition: the top (1st element of the heap) is always the smallest number
