@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 #include "minqueue.cpp"
+#include "utility.cpp"
 
 //create a minQueue based on the given array
 template<typename T>
@@ -22,7 +23,9 @@ T *windowPosition(T *inputArr, int k, int s)
     MinQueue<T> minPQ;
     for (int i = 0; i < s - k + 1; i++)
     {
+        //each time we create a minQueue to a sliced array
         minPQ = cpyArrToMinPQueue(inputArr, i, k);
+        //the first element of the minQueue (the smallest element) will be added to the returnArr
         returnArr[i] = minPQ.heapBase.arrValue[0];
     }
     return returnArr;
